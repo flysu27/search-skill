@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no" />
+    <title>熬一宿搜索</title>
+    <style>
+        /* 设置页面基础设置 */
+        * {
+            padding: 0px;
+            margin: 0px;
+        }
+
+        /* 设置header */
+        #header {
+            width: 100%;
+            height: 40px;
+        }
+
+        #header_nav {
+            float: left;
+            list-style-type: none;
+            position: absolute;
+            right: 90px;
+            top: 26px;
+        }
+
+        #header_nav a {
+            margin-left: 24px;
+            color: #333;
+            font-size: 13px;
+            font-weight: 30px;
+        }
+
+        /* 设置main */
+        #main {
+            width: 100%;
+            height: 290px;
+            text-align: center;
+        }
+
+        #img_logo {
+            margin-top: 25px;
+            margin-bottom: 20px;
+        }
+
+        input[type="text"] {
+            height: 34px;
+            width: 539px;
+            margin-right: 0px;
+            border: solid 1px #4992ff;
+            background-repeat: no-repeat;
+            background-position-x: 500px;
+        }
+
+        input[type="submit"] {
+            height: 37px;
+            width: 100px;
+            font-size: 15px;
+            color: #fff;
+            background-color: #2d78f4;
+            border: solid 0px;
+            letter-spacing: 1px;
+            position: relative;
+            right: 5px;
+            top: 2px;
+        }
+
+        /* 设置tailer */
+        #tailer {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+
+        #keyword:focus {
+            border: solid 1px #4992ff;
+        }
+
+        /* 使用伪类给标签加样式 */
+        #header_nav a:hover {
+            color: blue;
+        }
+
+        #searchCondition {
+            font-size: 12px;
+        }
+
+        #searchCondition input {
+            max-width: 100px;
+            height: 20px;
+            
+            border: 2px dashed #2d78f4;
+        }
+
+        @media (max-width: 600px) {
+            #keyword {
+                width: 60%;
+            }
+
+            #header {
+                display: flex;
+                justify-content: center;
+            }
+
+            #header_nav {
+                position: relative;
+                width: 80%;
+                float: none;
+                right: 0;
+                top: 10px;
+                display: flex;
+                flex-wrap: wrap;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div id="header">
+        <!-- 命名规范，父标签id_id -->
+        <li id="header_nav">
+            <a href="https://mp.weixin.qq.com/s/cO3PYA-UTGKTNXp6NQJUXA">公众号</a>
+            <a href="https://space.bilibili.com/231901476">教学游戏开发频道</a>
+            <a href="http://yanglegeyang.aoyixiu.cn/">中国省份版# 羊了个羊</a>
+            <a href="http://dilipintu.aoyixiu.cn/">国庆小游戏之拼版图</a>
+            <a href="">未完待续</a>
+        </li>
+    </div>
+    <!-- 主体 -->
+    <div id="main">
+        <img id="img_logo" src="aoyixiu_logo.jpg" width="170px" /><br />
+        <input type="text" name="keyword" id="keyword" placeholder="关键词"
+            style="border-radius: 10px 0 0 10px; padding-left: 1em" />
+        <input type="submit" name="" onclick="submitVal()" id="" value="熬一下" style="border-radius: 0 10px 10px 0" />
+    </div>
+
+    <!-- 头部 -->
+    <!-- 底部 -->
+    <div id="tailer">
+        <form action="http://vip.biancheng.net/login.php" id="searchCondition" name="searchCondition">
+            <span style="color: red;text-decoration: underline;">Ps:试试下面条件 可以极大提高准确率</span><br>
+            是否精确搜索：
+            <input type="radio" name="accurate" />是
+            <input type="radio" name="accurate" checked="checked" />否
+            <br />
+            <br />
+            是否指定网站搜索[提高80%准确度]：
+            <input type="text" name="website" placeholder="例如：baidu.com" />
+            <br />
+            <br />
+            是否去掉结果部分内容：
+            <input type="text" name="remove" placeholder="例如：苹果" />
+            <br />
+            <br />
+            指定文件类型：
+            <select id="filetype">
+                <option value="" selected></option>
+                <option value="ppt">ppt</option>
+                <option value="xls">xls</option>
+                <option value="doc">doc</option>
+                <option value="mp3">mp3</option>
+                <option value="pdf">pdf</option>
+            </select>
+        </form>
+        <img src="aoyixiu_qr.png" />
+        <h5>扫描关注熬一公众号</h5>
+        <h6>有用有趣 熬一宿</h6>
+    </div>
+</body>
+<script>
+    function getRadio(name) {
+        var node = document.getElementsByName(name);
+        var value = 0;
+        for (var i = 0; i < node.length; i++) {
+            if (node[i].checked == true) {
+                return true;
+            }
+        }
+    }
+    function getInput(name) {
+        var node = document.getElementsByName(name);
+        return node[0].value;
+    }
+    function getSelect(name) {
+        var select = document.getElementById(name);
+        var value = select.value;
+        var options = select.options;
+        var value1 = options[0].value;
+        var text1 = options[0].text;
+        var index = select.selectedIndex;
+        var selectedText = options[index].text;
+        return selectedText;
+    }
+    function submitVal() {
+        var s = getInput("keyword");
+        var form = {};
+        // 精确搜索，就是在你要搜索的词上，加上双引号，这个Google搜索引擎，就会完全的匹配你所要的词
+        var accurate = getRadio("accurate");
+        if (form["accurate"]) {
+            s = '"' + s + '"';
+        } else {
+            //     3. 通配符搜索：*
+            // 这也是⼀个⽐较常⽤的搜索⽅法，通常通配符搜索，⽤在模糊印象的地⽅⽐较多。当我想搜⼀句歌词，边⾛边爱，反正
+            // 这也是⼀个⽐较常⽤的搜索⽅法，通常通配符搜索，⽤在模糊印象的地⽅⽐较多。当我想搜⼀句歌词，边⾛边爱，反正⼈⼭⼈海但是前边的边⾛边爱，就可以⽤这个⽅法进⾏搜索了。搜索* 反正⼈⼭⼈海
+            s = "*" + s;
+        }
+        // 2. 站内搜索：site
+        // 这是⼀个⽐较常⽤的搜索⽅法，site 搜索，就是在站内进⾏搜索，语法是：site:stackoverflow.com/ 中 site:后⾯加上你要搜索的⽹站地址。⼀般程序猿解决问题，⽤site:stackoverflow.com/，⼤部分解决不了的问题，都会有答案了。
+        var website = getInput("website");
+        if (website) {
+            s += " site:" + website;
+        }
+        // 4. 减号排除，缩⼩范围：-
+        // 当搜索量⽐较⼤的时候，使⽤减号 - 也是⼀个⾮常不错的选择，⽐如你搜索⼀个⼈的信息的时候，通过减号，能够去掉⼀些⽆关的搜索，⽐如：
+        var remove = getInput("remove");
+        if (remove) {
+            s = s + " -" + remove;
+        }
+        // 5 . ⽂档搜索：filetype
+        // ⽂档搜索命令 filetype，多数情况下⽤以查找我们所需要的资料，返回的页⾯是你搜索的⽂档相应格式，如搜谭浩强C语⾔的pdf，版本: filetype:pdf 谭浩强C语⾔
+        var filetype = getSelect("filetype");
+        if (filetype) {
+            s = "filetype:" + filetype + " " + s;
+        }
+        var url = "https://www.baidu.com/s?wd=" + s;
+        window.open(url);
+    }
+</script>
+
+</html>
